@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
  
     <TableComponent />
   </div>
@@ -13,4 +13,5 @@ export default {
 </script>
 
 <style>
+
 </style>

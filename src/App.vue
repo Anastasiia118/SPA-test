@@ -1,19 +1,16 @@
 <template>
   <div >
-    <table-component :items="items"/>
+    <table-component  />
+    <charts />
   </div>
 </template>
 
 <script>
 import TableComponent from "./components/Table.vue";
-import Items from "./assets/data.json";
+import Charts from "./components/Charts.vue"
+
 export default {
-  components: { TableComponent },
-  data() {
-        return {
-            items: Items
-        }
-    },
+  components: { TableComponent, Charts },
 }
 </script>
 

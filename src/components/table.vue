@@ -1,75 +1,92 @@
 <template>
-    <div class="flex m-2.5 overflow-x-auto">
-        <table class="w-2/3 text-sm text-left text-gray-500 dark:text-gray-400 table-fixed ">
-        <thead class="ext-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <th scope="col" class="px-6 py-3">id</th>
-            <th scope="col" class="px-6 py-3">name</th>
-            <th scope="col" class="px-6 py-3">value</th>
-            <th scope="col" class="px-6 py-3 flex">
-                <button @click="previous10Items()" class="mr-1 flex btn add-info font-medium text-white-600  hover:bg-blue-600">
-                    <i class="fa-solid fa-arrow-left fa-lg self-center" style="color: #f0f2f4;"></i>
-                </button>
-                <button @click="next10Items()" class="flex btn add-info font-medium text-white-600  hover:bg-blue-600">
-                    <i class="fa-solid fa-arrow-right fa-lg self-center" style="color: #f0f2f4;"></i>
-                </button>
-            </th>
-        </thead>
-        <tbody>
-         <single-item v-bind:value="first10"  v-for="item in first10" :key="index" :item="item" :moreInfo="moreInfo"/>
-        </tbody>
-        </table>
-    </div>
+  <div class="flex m-2.5 overflow-x-auto shadow-md sm:rounded-lg">
+    <table
+      class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed"
+    >
+      <thead
+        class="ext-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+      >
+        <th scope="col" class="px-6 py-3">id</th>
+        <th scope="col" class="px-6 py-3">name</th>
+        <th scope="col" class="px-6 py-3">value</th>
+        <th scope="col" class="px-6 py-3 flex">
+          <button
+            @click="previous10Items()"
+            class="mr-1 flex btn add-info font-medium text-white-600 hover:bg-blue-600"
+          >
+            <i class="fa-solid fa-arrow-left fa-lg" style="color: #f0f2f4"></i>
+          </button>
+          <button
+            @click="next10Items()"
+            class="flex btn add-info font-medium text-white-600 hover:bg-blue-600"
+          >
+            <i class="fa-solid fa-arrow-right fa-lg" style="color: #f0f2f4"></i>
+          </button>
+        </th>
+      </thead>
+      <tbody>
+        <single-item v-for="item in currentItems" :key="item.id" :item="item" />
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
-import SingleItem from "./SingleItem.vue"
-import MoreInfo from "../assets/data_extended.json"
+const ITEMS_PER_PAGE = 10;
+
+import SingleItem from "./SingleItem.vue";
+
 export default {
-    components: {SingleItem},
-    props: {
-        items: {
-            type: Array,
-            required: true
-        }
+  components: { SingleItem },
+  data() {
+    return {
+      page: 0,
+    };
+  },
+  computed: {
+    items() {
+      return this.$store.state.items;
     },
-    data() {
-        return {
-            first10: this.items.slice(0,10),
-            moreInfo: MoreInfo,
-        }
+    currentItems() {
+      return this.items.slice(
+        this.page * ITEMS_PER_PAGE,
+        (this.page + 1) * ITEMS_PER_PAGE
+      );
     },
-    methods: {
-        next10Items(){
-            if(this.first10[9].id !== this.items[this.items.length - 1].id){
-                let firstItemId = this.first10[9].id +1;
-                let lastItemId = this.first10[9].id +11;
-               const nextTenItems = this.items.slice(firstItemId, lastItemId);
-               this.first10 = nextTenItems;
-               console.log(this.first10);
-            }
-          
-        },
-        previous10Items(){
-            if(this.first10[0].id !== this.items[0].id){
-                let firstItemId = this.first10[0].id -10;
-                let lastItemId = this.first10[9].id -9;
-                const prevTenItems = this.items.slice(firstItemId, lastItemId);
-                this.first10 = prevTenItems;
-                console.log(this.first10);
-            }
-        }
+    isFirstPage() {
+      return this.page == 0;
     }
-}
+
+  
+  },
+  methods: {
+    next10Items() {
+      const maxPages = this.items.length / ITEMS_PER_PAGE;
+
+      if (this.page + 1 < maxPages) {
+        this.page++;
+      }
+    },
+    previous10Items() {
+      if (!this.isFirstPage) {
+        this.page--;
+      }
+    },
+  },
+  mounted() {
+    this.$store.dispatch("getData");
+  },
+};
 </script>
 
 <style>
 .btn {
-    background-color: DodgerBlue; /* Blue background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 12px 16px; /* Some padding */
-    font-size: 16px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
-    border-radius: 4px;
+  background-color: DodgerBlue; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  border-radius: 4px;
 }
 </style>

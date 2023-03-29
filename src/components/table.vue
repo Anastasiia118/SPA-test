@@ -1,6 +1,6 @@
 <template>
-    <div class="flex m-2.5 overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+    <div class="flex m-2.5 overflow-x-auto">
+        <table class="w-2/3 text-sm text-left text-gray-500 dark:text-gray-400 table-fixed ">
         <thead class="ext-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <th scope="col" class="px-6 py-3">id</th>
             <th scope="col" class="px-6 py-3">name</th>
@@ -15,34 +15,30 @@
             </th>
         </thead>
         <tbody>
-        <tr v-bind:value="first10"  v-for="item in first10" :key="index"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{item.id}}</td>
-        <td class="px-6 py-4">{{item.name}}</td>
-        <td class="px-6 py-4">{{item.value}}</td>
-        <td class="px-6 py-4 w-2">
-        <button @click="showAdditional" class="add-info font-medium text-blue-600 dark:text-blue-500 hover:underline">more</button>
-        </td>
-        </tr>
+         <single-item v-bind:value="first10"  v-for="item in first10" :key="index" :item="item" :moreInfo="moreInfo"/>
         </tbody>
         </table>
     </div>
 </template>
 
 <script>
-import Items from "../assets/data.json"
-
+import SingleItem from "./SingleItem.vue"
+import MoreInfo from "../assets/data_extended.json"
 export default {
+    components: {SingleItem},
+    props: {
+        items: {
+            type: Array,
+            required: true
+        }
+    },
     data() {
         return {
-            items: Items,
-            first10: Items.slice(0,10),
-            additional: false,
+            first10: this.items.slice(0,10),
+            moreInfo: MoreInfo,
         }
     },
     methods: {
-        showAdditional(){
-            this.additional = !this.additional;
-        },
         next10Items(){
             if(this.first10[9].id !== this.items[this.items.length - 1].id){
                 let firstItemId = this.first10[9].id +1;

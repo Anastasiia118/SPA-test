@@ -1,8 +1,16 @@
 <template>
-  <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+  <div class="p-4">
+    <Bar
+      id="my-chart-id"
+      :options="chartOptions"
+      :data="chartData"
+      :style="myStyles"
+    />
+  </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -34,13 +42,28 @@ export default {
     }
   },
   computed: {
-    numberOfItems() {
-      return this.$store.state.items.length;
+    ...mapGetters(["totalValue", "averageTotalValue", "valueOf50AndMore"]),
+    myStyles() {
+      return {
+        height: `${30}rem`,
+        position: "relative",
+      };
+    },
+    valueOfItems() {
+      return this.valueOf50AndMore;
+    },
+    getTotalValue() {
+      return this.totalValue;
+    },
+    getAverage() {
+      return this.averageTotalValue;
     },
     chartData() {
       return {
-        labels: ["Total", "February", "March"],
-        datasets: [{ data: [123, 12111, this.numberOfItems] }],
+        labels: ["Total", "Average", "Items with value >= 50"],
+        datasets: [
+          { data: [this.getTotalValue, this.getAverage, this.valueOfItems] },
+        ],
       };
     },
   },

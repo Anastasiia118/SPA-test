@@ -3,24 +3,25 @@
     <table
       class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed"
     >
-      <thead
-        class="ext-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-      >
+      <thead class="ext-xs uppercase dark:bg-light-plum dark:text-plum">
         <th scope="col" class="px-6 py-3">id</th>
         <th scope="col" class="px-6 py-3">name</th>
         <th scope="col" class="px-6 py-3">value</th>
-        <th scope="col" class="px-6 py-3 flex">
+        <th
+          scope="col"
+          class="px-6 py-3 flex sm:flex-row justify-between sm:justify-start flex-col"
+        >
           <button
             @click="previous10Items()"
-            class="mr-1 flex btn add-info font-medium text-white-600 hover:bg-blue-600"
+            class="bg-blue-500 sm:mr-1 mr-0 mb-1 sm:mb-0 flex justify-center btn add-info font-medium text-white-600 hover:bg-violette"
           >
-            <i class="fa-solid fa-arrow-left fa-lg" style="color: #f0f2f4"></i>
+            <i class="fa-solid fa-arrow-left fa-lg"></i>
           </button>
           <button
             @click="next10Items()"
-            class="flex btn add-info font-medium text-white-600 hover:bg-blue-600"
+            class="bg-blue-500 flex justify-center btn add-info font-medium text-white-600 hover:bg-violette"
           >
-            <i class="fa-solid fa-arrow-right fa-lg" style="color: #f0f2f4"></i>
+            <i class="fa-solid fa-arrow-right fa-lg"></i>
           </button>
         </th>
       </thead>
@@ -29,12 +30,22 @@
       </tbody>
     </table>
   </div>
+  <div class="pagination">
+    <i
+      @click="pageClick(page)"
+      class="page uppercase dark:text-plum hover:text-gray"
+      v-for="page in pages"
+      :key="page"
+      >{{ page }}</i
+    >
+  </div>
 </template>
 
 <script>
 const ITEMS_PER_PAGE = 10;
 
 import SingleItem from "./SingleItem.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: { SingleItem },
@@ -55,9 +66,10 @@ export default {
     },
     isFirstPage() {
       return this.page == 0;
-    }
-
-  
+    },
+    pages() {
+      return Math.ceil(this.items.length / ITEMS_PER_PAGE);
+    },
   },
   methods: {
     next10Items() {
@@ -72,6 +84,9 @@ export default {
         this.page--;
       }
     },
+    pageClick(page) {
+      this.page = page - 1;
+    },
   },
   mounted() {
     this.$store.dispatch("getData");
@@ -81,12 +96,24 @@ export default {
 
 <style>
 .btn {
-  background-color: DodgerBlue; /* Blue background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 12px 16px; /* Some padding */
-  font-size: 16px; /* Set a font size */
-  cursor: pointer; /* Mouse pointer on hover */
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
   border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.page {
+  padding: 3px 10px;
+  border-radius: 5px;
+  border: solid 1px;
+  cursor: pointer;
+  font-style: normal;
+  margin-right: 3px;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <tr
-    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+    class="border-b border-lavender dark:bg-light-plum dark:hover:bg-lavender"
   >
     <td
-      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray"
     >
       {{ item.id }}
     </td>
@@ -12,7 +12,7 @@
     <td class="px-6 py-4 w-2">
       <button
         @click="showAdditional"
-        class="add-info font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        class="add-info font-medium dark:text-plum hover:underline"
       >
         more
       </button>
@@ -46,7 +46,7 @@ export default {
   computed: {},
   methods: {
     async showAdditional() {
-        // Check the API only when showing
+      // Check the API only when showing
       if (!this.additional) {
         this.moreInfo = await this.$store.dispatch("getItem", this.item.id);
       }

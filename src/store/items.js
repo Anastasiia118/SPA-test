@@ -14,7 +14,29 @@ export const store = createStore({
     return {
       items: [],
       itemsExtended: [],
+      page: 0,
     };
+  },
+  getters: {
+    totalValue(state) {
+      let total = 0;
+      state.items.forEach((item) => {
+        total += item.value;
+      });
+      return total;
+    },
+    averageTotalValue(state, getters) {
+      return getters.totalValue / state.items.length;
+    },
+    valueOf50AndMore(state) {
+      let total = 0;
+      state.items
+        .filter((item) => item.value >= 50)
+        .forEach((item) => {
+          total += item.value;
+        });
+      return total;
+    },
   },
   mutations: {
     SET_DATA(state, payload) {
@@ -36,7 +58,7 @@ export const store = createStore({
       }
     },
     async getItem({ commit }, id) {
-      // The endpoint shold have the ID parameter, but we don't have the option with the JSON
+      // The endpoint should have the ID parameter, but we don't have this option with the JSON
       try {
         const response = await fetch(API_URL_EXTENDED);
         const data = await response.json();

@@ -45,7 +45,6 @@
 const ITEMS_PER_PAGE = 10;
 
 import SingleItem from "./SingleItem.vue";
-import { mapGetters } from "vuex";
 
 export default {
   components: { SingleItem },

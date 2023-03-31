@@ -1,30 +1,41 @@
-# spa-test
+# **SPA Technical Test**
 
-This template should help get you started developing with Vue 3 in Vite.
+## **Project Description**
 
-## Recommended IDE Setup
+It's a simple Single Page Application created in order to prove the acquired hard skills needed for the position of junior/mid-frontend developer in OneRagtime company.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+The application was build using Vue.js framework along with Vuex state management pattern & library. As for CSS, Tailwind framework was used to apply necessary styles. Additionally, Chart.js library along with vue-chartjs wrapper was utilised for data visualisation.
 
-## Customize configuration
+## **How to install and run**
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+*Assuming you have already pre-installed Node.js and npm:*
+- Vue.js
 
-## Project Setup
-
-```sh
-npm install
+```bash
+npm init vue@latest
 ```
 
-### Compile and Hot-Reload for Development
+- Tailwind v3.2.4
 
-```sh
-npm run dev
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
 
-### Compile and Minify for Production
+Follow [Tailwind](https://tailwindcss.com/docs/guides/vite#vue) guideline.
 
-```sh
-npm run build
+- Vuex
+
+```bash
+npm install vuex@next --save
 ```
-# SPA-test
+
+- vue-chartjs
+  
+```bash
+npm i vue-chartjs chart.js
+``` 
+
+## **Functionality**
+
+

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,4 +7,5 @@ body {
   background-image: url("/src/assets/62b45200cc1e5e597626e8c3_Group\ 1015.png");
   background-size: 100%;
   background-repeat: no-repeat;
+  font-family: 'Mulish', sans-serif;
 }

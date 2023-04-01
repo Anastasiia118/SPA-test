@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TableComponent from "./components/Table.vue";
+import TableComponent from "./components/TableComponent.vue";
 import Charts from "./components/Charts.vue";
 import HeaderComponent from "./components/HeaderComponent.vue";
 

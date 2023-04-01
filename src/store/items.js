@@ -16,6 +16,9 @@ export const store = createStore({
       itemsExtended: [],
       itemsPerPage: 10,
       currentPage: 0,
+      sortBy: "id",
+      sortOrder: 1,
+      filterBy: "",
     };
   },
   getters: {
@@ -23,10 +26,28 @@ export const store = createStore({
       return Math.ceil(state.items.length / state.itemsPerPage);
     },
     CURRENT_ITEMS(state) {
-      return state.items.slice(
-        state.currentPage * state.itemsPerPage,
-        (state.currentPage + 1) * state.itemsPerPage
-      );
+      return state.items
+        .filter((item) => {
+          if (state.filterBy === "") {
+            return true;
+          }
+
+          if (item.id.includes(this.filterBy)) {
+            return true;
+          }
+
+          return false;
+        })
+        .sort((item1, item2) => {
+          if (item1[state.sortBy] > item2[state.sortBy] || state.sortBy === "name") {
+            return state.sortOrder;
+          }
+          return -1 * state.sortOrder;
+        })
+        .slice(
+          state.currentPage * state.itemsPerPage,
+          (state.currentPage + 1) * state.itemsPerPage
+        );
     },
     CURRENT_PAGE(state) {
       return state.currentPage;
@@ -60,6 +81,14 @@ export const store = createStore({
     },
     SET_CURRENT_PAGE(state, payload) {
       state.currentPage = payload;
+    },
+    SET_ORDER(state, payload) {
+      if (state.sortBy === payload) {
+        return (state.sortOrder = -1 * state.sortOrder);
+      }
+
+      state.sortBy = payload;
+      state.sortOrder = 1;
     },
   },
   actions: {

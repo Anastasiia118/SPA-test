@@ -4,29 +4,38 @@
       class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed"
     >
       <thead class="ext-xs uppercase dark:bg-light-plum dark:text-plum">
-        <th scope="col" class="px-6 py-3">id</th>
-        <th scope="col" class="px-6 py-3">name</th>
-        <th scope="col" class="px-6 py-3">value</th>
-        <th
-          scope="col"
-          class="px-6 py-3 flex sm:flex-row justify-between sm:justify-start flex-col"
-        >
-          <button
-            @click="previous10Items()"
-            class="bg-blue-500 rounded text-base py-3 px-4 text-white sm:mr-1 mr-0 mb-1 sm:mb-0 flex justify-center add-info font-medium hover:bg-violette"
+        <tr>
+          <TableTh name="id" />
+          <TableTh name="name" />
+          <TableTh name="value" />
+          
+          <th
+            scope="col"
+            class="px-6 py-3 flex sm:flex-row justify-between sm:justify-start flex-col"
           >
-            <i class="fa-solid fa-arrow-left fa-lg"></i>
-          </button>
-          <button
-            @click="next10Items()"
-            class="bg-blue-500 rounded text-base py-3 px-4 text-white flex justify-center add-info font-medium hover:bg-violette"
-          >
-            <i class="fa-solid fa-arrow-right fa-lg"></i>
-          </button>
-        </th>
+            <button
+              :disabled="isFirstPage"
+              @click="previous10Items()"
+              class="disabled:opacity-50 bg-blue-500 rounded text-base py-3 px-4 text-white sm:mr-1 mr-0 mb-1 sm:mb-0 flex justify-center add-info font-medium"
+            >
+              <i class="fa-solid fa-arrow-left fa-lg"></i>
+            </button>
+            <button
+              :disabled="isLastPage"
+              @click="next10Items()"
+              class="disabled:opacity-50 bg-blue-500 rounded text-base py-3 px-4 text-white flex justify-center add-info font-medium"
+            >
+              <i class="fa-solid fa-arrow-right fa-lg"></i>
+            </button>
+          </th>
+        </tr>
       </thead>
       <tbody>
-        <single-item v-for="item in currentItems" :key="item.id" :item="item" />
+        <single-item
+          v-for="item in CURRENT_ITEMS"
+          :key="item.id"
+          :item="item"
+        />
       </tbody>
     </table>
   </div>
@@ -43,10 +52,11 @@
 
 <script>
 import SingleItem from "./SingleItem.vue";
-import { mapGetters } from "vuex";
+import TableTh from "./TableTh.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  components: { SingleItem },
+  components: { SingleItem, TableTh },
   data() {
     return {
       page: 0,
@@ -57,26 +67,24 @@ export default {
     items() {
       return this.$store.state.items;
     },
-    currentItems() {
-      return this.CURRENT_ITEMS;
-    },
     isFirstPage() {
       return this.CURRENT_PAGE == 0;
+    },
+    isLastPage() {
+      return this.CURRENT_PAGE == this.PAGES - 1;
     },
     pages() {
       return this.PAGES;
     },
   },
   methods: {
+    ...mapActions(['getCurrentPage']),
+    
     next10Items() {
-      if (this.CURRENT_PAGE + 1 < this.PAGES) {
-        this.$store.dispatch("getCurrentPage", this.CURRENT_PAGE + 1);
-      }
+      this.getCurrentPage(this.CURRENT_PAGE + 1);
     },
     previous10Items() {
-      if (!this.isFirstPage) {
-        this.$store.dispatch("getCurrentPage", this.CURRENT_PAGE - 1);
-      }
+      this.$store.dispatch("getCurrentPage", this.CURRENT_PAGE - 1);
     },
     pageClick(page) {
       this.$store.dispatch("getCurrentPage", page - 1);

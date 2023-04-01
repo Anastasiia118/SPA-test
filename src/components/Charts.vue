@@ -36,33 +36,28 @@ export default {
     Bar,
   },
   data() {
-    return {};
-    chartOptions: {
-      responsive: true;
-    }
+    return {
+      chartOptions: {
+        responsive: true,
+      },
+    };
   },
   computed: {
-    ...mapGetters(['TOTAL_VALUE', 'AVERAGE_TOTAL_VALUE', 'VALUE_50_MORE']),
+    ...mapGetters(["TOTAL_VALUE", "AVERAGE_TOTAL_VALUE", "VALUE_50_MORE"]),
     myStyles() {
       return {
         height: `${30}rem`,
         position: "relative",
       };
     },
-    valueOfItems() {
-      return this.VALUE_50_MORE;
-    },
-    getTotalValue() {
-      return this.TOTAL_VALUE;
-    },
-    getAverage() {
-      return this.AVERAGE_TOTAL_VALUE;
-    },
     chartData() {
       return {
         labels: ["Total", "Average", "Items with value >= 50"],
         datasets: [
-          { data: [this.getTotalValue, this.getAverage, this.valueOfItems] },
+          {
+            label: "Visual Representation",
+            data: [this.TOTAL_VALUE, this.AVERAGE_TOTAL_VALUE, this.VALUE_50_MORE],
+          },
         ],
       };
     },

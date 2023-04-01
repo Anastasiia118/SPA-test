@@ -6,35 +6,19 @@ It's a simple Single Page Application created in order to prove the acquired har
 
 The application was build using Vue.js framework along with Vuex state management pattern & library. As for CSS, Tailwind framework was used to apply necessary styles. Additionally, Chart.js library along with vue-chartjs wrapper was utilised for data visualisation.
 
-## **How to install and run**
+## **Set Up instructions:**
 
-*Assuming you have already pre-installed Node.js and npm:*
-- Vue.js
+- Development Install
 
 ```bash
-npm init vue@latest
+npm run dev
 ```
 
-- Tailwind v3.2.4
+- Deployment
 
 ```bash
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
+npm run build
 ```
-
-Follow [Tailwind](https://tailwindcss.com/docs/guides/vite#vue) guideline.
-
-- Vuex
-
-```bash
-npm install vuex@next --save
-```
-
-- vue-chartjs
-  
-```bash
-npm i vue-chartjs chart.js
-``` 
 
 ## **Some Additional Info**
 

@@ -13,13 +13,13 @@
         >
           <button
             @click="previous10Items()"
-            class="bg-blue-500 sm:mr-1 mr-0 mb-1 sm:mb-0 flex justify-center btn add-info font-medium text-white-600 hover:bg-violette"
+            class="bg-blue-500 rounded text-base py-3 px-4 text-white sm:mr-1 mr-0 mb-1 sm:mb-0 flex justify-center add-info font-medium hover:bg-violette"
           >
             <i class="fa-solid fa-arrow-left fa-lg"></i>
           </button>
           <button
             @click="next10Items()"
-            class="bg-blue-500 flex justify-center btn add-info font-medium text-white-600 hover:bg-violette"
+            class="bg-blue-500 rounded text-base py-3 px-4 text-white flex justify-center add-info font-medium hover:bg-violette"
           >
             <i class="fa-solid fa-arrow-right fa-lg"></i>
           </button>
@@ -30,10 +30,10 @@
       </tbody>
     </table>
   </div>
-  <div class="pagination">
+  <div class="flex flex-wrap justify-center">
     <i
       @click="pageClick(page)"
-      class="page uppercase dark:text-plum hover:text-gray"
+      class="page uppercase dark:text-plum hover:text-gray py-[3px] px-[10px] rounded cursor-pointer border border-solid not-italic mr-[3px]"
       v-for="page in pages"
       :key="page"
       >{{ page }}</i
@@ -42,9 +42,8 @@
 </template>
 
 <script>
-const ITEMS_PER_PAGE = 10;
-
 import SingleItem from "./SingleItem.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: { SingleItem },
@@ -54,37 +53,33 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["PAGES", "CURRENT_ITEMS", "CURRENT_PAGE"]),
     items() {
       return this.$store.state.items;
     },
     currentItems() {
-      return this.items.slice(
-        this.page * ITEMS_PER_PAGE,
-        (this.page + 1) * ITEMS_PER_PAGE
-      );
+      return this.CURRENT_ITEMS;
     },
     isFirstPage() {
-      return this.page == 0;
+      return this.CURRENT_PAGE == 0;
     },
     pages() {
-      return Math.ceil(this.items.length / ITEMS_PER_PAGE);
+      return this.PAGES;
     },
   },
   methods: {
     next10Items() {
-      const maxPages = this.items.length / ITEMS_PER_PAGE;
-
-      if (this.page + 1 < maxPages) {
-        this.page++;
+      if (this.CURRENT_PAGE + 1 < this.PAGES) {
+        this.$store.dispatch("getCurrentPage", this.CURRENT_PAGE + 1);
       }
     },
     previous10Items() {
       if (!this.isFirstPage) {
-        this.page--;
+        this.$store.dispatch("getCurrentPage", this.CURRENT_PAGE - 1);
       }
     },
     pageClick(page) {
-      this.page = page - 1;
+      this.$store.dispatch("getCurrentPage", page - 1);
     },
   },
   mounted() {
@@ -92,27 +87,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.btn {
-  border: none;
-  color: white;
-  padding: 12px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.page {
-  padding: 3px 10px;
-  border-radius: 5px;
-  border: solid 1px;
-  cursor: pointer;
-  font-style: normal;
-  margin-right: 3px;
-}
-</style>

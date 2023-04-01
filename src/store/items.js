@@ -14,21 +14,34 @@ export const store = createStore({
     return {
       items: [],
       itemsExtended: [],
-      page: 0,
+      itemsPerPage: 10,
+      currentPage: 0,
     };
   },
   getters: {
-    totalValue(state) {
+    PAGES(state) {
+      return Math.ceil(state.items.length / state.itemsPerPage);
+    },
+    CURRENT_ITEMS(state) {
+      return state.items.slice(
+        state.currentPage * state.itemsPerPage,
+        (state.currentPage + 1) * state.itemsPerPage
+      );
+    },
+    CURRENT_PAGE(state) {
+      return state.currentPage;
+    },
+    TOTAL_VALUE(state) {
       let total = 0;
       state.items.forEach((item) => {
         total += item.value;
       });
       return total;
     },
-    averageTotalValue(state, getters) {
-      return getters.totalValue / state.items.length;
+    AVERAGE_TOTAL_VALUE(state, getters) {
+      return getters.TOTAL_VALUE / state.items.length;
     },
-    valueOf50AndMore(state) {
+    VALUE_50_MORE(state) {
       let total = 0;
       state.items
         .filter((item) => item.value >= 50)
@@ -44,6 +57,9 @@ export const store = createStore({
     },
     SET_DATA_EXTENDED(state, payload) {
       state.itemsExtended = payload;
+    },
+    SET_CURRENT_PAGE(state, payload) {
+      state.currentPage = payload;
     },
   },
   actions: {
@@ -69,6 +85,9 @@ export const store = createStore({
         console.log(e);
         alert("Something went wrong");
       }
+    },
+    getCurrentPage({ commit }, page) {
+      commit("SET_CURRENT_PAGE", page);
     },
   },
 });

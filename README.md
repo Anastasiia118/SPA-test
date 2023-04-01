@@ -36,6 +36,12 @@ npm install vuex@next --save
 npm i vue-chartjs chart.js
 ``` 
 
-## **Functionality**
+## **Some Additional Info**
+
+a. Two types of pagination were used in order to accomplish the test requirements : "maximum of 5 page links shown at any given time" and the option with "previos"/"next" button which expected to be disabled when needed.
+
+b. Due to lack of real API with its endpoints, the provided json files were transformed into links (through GitHub Pages) as a way show the ability to use promises and error handling.
+
+## **Live Demo**
 
 

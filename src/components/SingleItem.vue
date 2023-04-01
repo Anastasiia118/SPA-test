@@ -20,7 +20,7 @@
   </tr>
   <tr v-if="additional" class="dark:bg-gray-700">
     <td
-      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray"
     >
       {{ moreInfo.id }}
     </td>

@@ -42,7 +42,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["totalValue", "averageTotalValue", "valueOf50AndMore"]),
+    ...mapGetters(['TOTAL_VALUE', 'AVERAGE_TOTAL_VALUE', 'VALUE_50_MORE']),
     myStyles() {
       return {
         height: `${30}rem`,
@@ -50,13 +50,13 @@ export default {
       };
     },
     valueOfItems() {
-      return this.valueOf50AndMore;
+      return this.VALUE_50_MORE;
     },
     getTotalValue() {
-      return this.totalValue;
+      return this.TOTAL_VALUE;
     },
     getAverage() {
-      return this.averageTotalValue;
+      return this.AVERAGE_TOTAL_VALUE;
     },
     chartData() {
       return {

@@ -44,4 +44,4 @@ b. Due to lack of real API with its endpoints, the provided json files were tran
 
 ## **Live Demo**
 
-
+-  ## [SPA_Project_Test](https://lovely-paprenjak-cc98ec.netlify.app/)

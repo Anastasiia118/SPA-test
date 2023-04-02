@@ -4,12 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'violette': '#7a67e0',
-        'light-plum': '#f3f1f6',
-        'lavender': '#e6e2ef',
-        'plum': '#8471b0',
-        'gray': '#282727',
-        'dark-plum': '#493d86'
+        violette: "#7a67e0",
+        "light-plum": "#f3f1f6",
+        lavender: "#e6e2ef",
+        plum: "#8471b0",
+        gray: "#282727",
+        "dark-plum": "#493d86",
       },
     },
     fontFamily: {
@@ -22,7 +22,7 @@ module.exports = {
     screens: {
       sm: "640px",
       md: "768px",
-    }
+    },
   },
   plugins: [],
-}
+};

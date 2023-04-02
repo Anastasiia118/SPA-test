@@ -18,36 +18,23 @@ export const store = createStore({
       currentPage: 0,
       sortBy: "id",
       sortOrder: 1,
-      filterBy: "",
+      filterBy: null,
     };
   },
   getters: {
-    PAGES(state) {
-      return Math.ceil(state.items.length / state.itemsPerPage);
+    PAGES(state, getters) {
+      return Math.ceil(getters.FILTERED_ITEMS.length / state.itemsPerPage);
     },
-    CURRENT_ITEMS(state) {
-      return state.items
-        .filter((item) => {
-          if (state.filterBy === "") {
-            return true;
-          }
-
-          if (item.id.includes(this.filterBy)) {
-            return true;
-          }
-
-          return false;
-        })
-        .sort((item1, item2) => {
-          if (item1[state.sortBy] > item2[state.sortBy] || state.sortBy === "name") {
-            return state.sortOrder;
-          }
-          return -1 * state.sortOrder;
-        })
-        .slice(
-          state.currentPage * state.itemsPerPage,
-          (state.currentPage + 1) * state.itemsPerPage
-        );
+    CURRENT_ITEMS(state, getters) {
+      return getters.FILTERED_ITEMS.sort((item1, item2) => {
+        if (item1[state.sortBy] > item2[state.sortBy]) {
+          return state.sortOrder;
+        }
+        return -1 * state.sortOrder;
+      }).slice(
+        state.currentPage * state.itemsPerPage,
+        (state.currentPage + 1) * state.itemsPerPage
+      );
     },
     CURRENT_PAGE(state) {
       return state.currentPage;
@@ -71,6 +58,18 @@ export const store = createStore({
         });
       return total;
     },
+    FILTERED_ITEMS(state) {
+      if (state.filterBy === null || state.filterBy === "") {
+        return state.items;
+      }
+      return state.items.filter((item) => {
+        if (item.id.toString().includes(state.filterBy.toString())) {
+          return item.id == state.filterBy;
+        } else {
+          return false;
+        }
+      });
+    },
   },
   mutations: {
     SET_DATA(state, payload) {
@@ -89,6 +88,9 @@ export const store = createStore({
 
       state.sortBy = payload;
       state.sortOrder = 1;
+    },
+    SET_FILTER(state, payload) {
+      state.filterBy = payload;
     },
   },
   actions: {

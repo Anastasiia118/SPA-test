@@ -9,10 +9,10 @@
     </td>
     <td class="px-6 py-4">{{ item.name }}</td>
     <td class="px-6 py-4">{{ item.value }}</td>
-    <td class="px-6 py-4 w-2">
+    <td class="px-6 py-4 w-2 font-semibold">
       <button
         @click="showAdditional"
-        class="add-info font-medium dark:text-plum hover:underline"
+        class="add-info dark:text-plum hover:underline text-base"
       >
         more
       </button>

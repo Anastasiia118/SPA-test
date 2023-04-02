@@ -1,4 +1,5 @@
 <template>
+  <FilterForm />
   <div class="flex m-2.5 overflow-x-auto shadow-md sm:rounded-lg">
     <table
       class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed"
@@ -8,7 +9,7 @@
           <TableTh name="id" />
           <TableTh name="name" />
           <TableTh name="value" />
-          
+
           <th
             scope="col"
             class="px-6 py-3 flex sm:flex-row justify-between sm:justify-start flex-col"
@@ -42,8 +43,9 @@
   <div class="flex flex-wrap justify-center">
     <i
       @click="pageClick(page)"
+      :class="{ 'page-selected': page === CURRENT_PAGE + 1 }"
       class="page uppercase dark:text-plum hover:text-gray py-[3px] px-[10px] rounded cursor-pointer border border-solid not-italic mr-[3px]"
-      v-for="page in pages"
+      v-for="page in PAGES"
       :key="page"
       >{{ page }}</i
     >
@@ -53,15 +55,11 @@
 <script>
 import SingleItem from "./SingleItem.vue";
 import TableTh from "./TableTh.vue";
+import FilterForm from "./FilterForm.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  components: { SingleItem, TableTh },
-  data() {
-    return {
-      page: 0,
-    };
-  },
+  components: { SingleItem, TableTh, FilterForm },
   computed: {
     ...mapGetters(["PAGES", "CURRENT_ITEMS", "CURRENT_PAGE"]),
     items() {
@@ -73,21 +71,18 @@ export default {
     isLastPage() {
       return this.CURRENT_PAGE == this.PAGES - 1;
     },
-    pages() {
-      return this.PAGES;
-    },
   },
   methods: {
-    ...mapActions(['getCurrentPage']),
-    
+    ...mapActions(["getCurrentPage"]),
+
     next10Items() {
       this.getCurrentPage(this.CURRENT_PAGE + 1);
     },
     previous10Items() {
-      this.$store.dispatch("getCurrentPage", this.CURRENT_PAGE - 1);
+      this.getCurrentPage(this.CURRENT_PAGE - 1);
     },
     pageClick(page) {
-      this.$store.dispatch("getCurrentPage", page - 1);
+      this.getCurrentPage(page - 1);
     },
   },
   mounted() {
@@ -95,3 +90,8 @@ export default {
   },
 };
 </script>
+<style>
+.page-selected {
+  background-color: #e6e2ef;
+}
+</style>

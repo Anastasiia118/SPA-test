@@ -56,7 +56,11 @@ export default {
         datasets: [
           {
             label: "Visual Representation",
-            data: [this.TOTAL_VALUE, this.AVERAGE_TOTAL_VALUE, this.VALUE_50_MORE],
+            data: [
+              this.TOTAL_VALUE,
+              this.AVERAGE_TOTAL_VALUE,
+              this.VALUE_50_MORE,
+            ],
           },
         ],
       };
